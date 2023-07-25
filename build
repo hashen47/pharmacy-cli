@@ -1,0 +1,32 @@
+#!/usr/bin/python3
+
+
+import sys
+import os
+from subprocess import Popen, PIPE
+
+
+# validate the filename
+if len(sys.argv) < 2:
+    print("Filename is empty")
+    exit()
+
+filename = sys.argv[1]
+
+if not os.path.exists(filename):
+    print(f"{filename} is not exists")
+
+
+# handle the build process
+p = Popen(
+    f"gcc {filename} -o {filename[:-2]}",
+    stdout=PIPE, stderr=PIPE, shell=True)
+
+out, err = p.communicate()
+
+if err:
+    print(err)
+    exit()
+else:
+    print("compilation process is done...")
+    exit()
