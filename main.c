@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <regex.h>
+#include <stdbool.h>
 
 
 #define STRMAX 200
@@ -111,6 +113,38 @@ int valid(Drug drugs[], int id) {
 }
 
 
+int match(Drug drugs[], char *name) {
+  char pattern[STRMAX];
+  int matched = 0;
+  regex_t preg;
+
+  // create the pattern
+  sprintf(pattern, ".*%s.*", name);
+
+  // compile the regex
+  int r = regcomp(&preg, pattern, 0);
+  if (r != 0) {
+    perror("regex not compiled/n");
+  }
+
+  // match drug's name with regex
+  for(int i = 0; i < count() -1; i++) {
+    Drug drug = drugs[i];
+    int r = regexec(&preg, drug.name, 0, NULL, 0);
+    if (r == 0) {
+      matched = 1;
+      printf("id: %d, name: %s, count: %d\n", drug.id, drug.name, drug.count);
+    }
+  }
+
+  if (matched == 0) {
+    printf("their is no match..!\n");
+  }
+  
+  return matched;
+}
+
+
 void printDrugs(Drug drugs[]) {
   for (int i = 0; i < count() -1; i++) {
     Drug d = drugs[i];
@@ -132,6 +166,7 @@ int main() {
   printf("id: ");
   scanf("%d", &id);
   printf("stat: %d\n", valid(drugs, id));
+  printf("id: %d\n", match(drugs, "test"));
 
   return 0;
 }
