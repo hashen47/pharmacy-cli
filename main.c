@@ -53,7 +53,7 @@ void create(Drug drugs[]) {
 
   fp = fopen("data.txt", "r");
 
-  for(int i = 0; i < count(); i++) {
+  for(int i = 0; i < count()-1; i++) {
     if (feof(fp)) {
       break;
     }
@@ -73,7 +73,7 @@ void save(Drug drugs[]) {
   
   // save new data to temp.txt file
   fp = fopen("temp.txt", "w");
-  for (int i = 0; i < count(); i++) {
+  for (int i = 0; i < count()-1; i++) {
     Drug drug = drugs[i];
     fprintf(fp, "%d_%d_%s\n", drug.id, drug.count, drug.name);
   }
@@ -87,8 +87,32 @@ void save(Drug drugs[]) {
 }
 
 
+int valid(Drug drugs[], int id) {
+  int stat = 0;
+  Drug sDrug = {}; // selected drug
+
+  for (int i = 0; i < count()-1; i++) {
+    Drug drug = drugs[i];
+    if (drug.id == id) {
+      stat = 1;
+      sDrug.id = drug.id;
+      strncpy(sDrug.name, drug.name, STRMAX); 
+      sDrug.count = drug.count;
+    }
+  }
+
+  if (stat == 0) {
+    printf("id %d is not exists..\n", id);
+  } else {
+    printf("id: %d | name: %s | count: %d\n", sDrug.id, sDrug.name, sDrug.count);
+  }
+
+  return stat;
+}
+
+
 void printDrugs(Drug drugs[]) {
-  for (int i = 0; i < count(); i++) {
+  for (int i = 0; i < count() -1; i++) {
     Drug d = drugs[i];
     printf("id: %d, name: %s, count: %d\n", d.id, d.name, d.count);
   }
@@ -96,11 +120,18 @@ void printDrugs(Drug drugs[]) {
 
 
 int main() {
+  int id;
   Drug drugs[count()];
+
   printf("file is working..!\n");
   printf("count: %d\n", count());
   create(drugs);
   printDrugs(drugs);
-  save(drugs);
+  // save(drugs);
+
+  printf("id: ");
+  scanf("%d", &id);
+  printf("stat: %d\n", valid(drugs, id));
+
   return 0;
 }
