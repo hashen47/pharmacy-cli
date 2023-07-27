@@ -9,4 +9,4 @@
 - [x] create "match" function
 - [x] create "store" function
 - [x] create "issue" function
-- [ ] create "add" function
+- [x] create "add" function
