@@ -27,6 +27,15 @@ void issue(Drug drugs[]);             // decrease specific drug's count (issue d
 void add(Drug drugs[]);               // add a new drug to the store 
 
 
+void welcome() {
+  printf("<<-::::PHARMACY::::->>");
+  printf("1. Add new Medicine a drug\n");
+  printf("2. Sell Medicine\n");
+  printf("3. New stock\n");
+  printf("4. Exit\n");
+}
+
+
 int count() {
   FILE *fp;
   int c = 0;
