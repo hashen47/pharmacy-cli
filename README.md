@@ -1,7 +1,7 @@
 # Pharmacy Cli Program
 
 # Todos
-- [ ] create "welcome" function
+- [x] create "welcome" function
 - [x] create "count" function
 - [x] create "create" function
 - [x] create "save" function
