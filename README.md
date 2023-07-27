@@ -7,6 +7,6 @@
 - [x] create "save" function
 - [x] create "valid" function
 - [x] create "match" function
-- [ ] create "store" function
+- [x] create "store" function
 - [x] create "issue" function
 - [ ] create "add" function
