@@ -22,13 +22,13 @@ int valid(Drug drugs[], int id);      // check whether given id is in the drugs 
 int match(Drug drugs[], char* name);  // check whether given name is in the drugs array
 void create(Drug drugs[]);            // create drugs array array with data.txt file content 
 void save(Drug drugs[]);              // create a new data.txt file with drugs array elements
-void store(Drug drugs[]);             // increase specific drug's count
+void store(Drug drugs[]);             // add spedific items to the stock
 void issue(Drug drugs[]);             // decrease specific drug's count (issue drug)
 void add(Drug drugs[]);               // add a new drug to the store 
 
 
 void welcome() {
-  printf("<<-::::PHARMACY::::->>");
+  printf("<<-::::PHARMACY::::->>\n");
   printf("1. Add new Medicine a drug\n");
   printf("2. Sell Medicine\n");
   printf("3. New stock\n");
@@ -293,11 +293,31 @@ void printDrugs(Drug drugs[]) {
 
 
 int main() {
-  int id;
-  Drug drugs[count()];
-  create(drugs);
-  // issue(drugs);
-  // store(drugs);
-  add(drugs);
-  return 0;
+  bool run = true;
+  while (run) {
+    int response;
+    Drug drugs[count()]; // declare the drug array
+    // system("clear");
+    
+    create(drugs); // assign to drug array 
+    welcome();
+    printf("> ");
+    scanf("%d", &response);
+
+    switch(response) {
+      case 1:
+        add(drugs);
+        break;
+      case 2:
+        issue(drugs);
+        break;
+      case 3:
+        store(drugs);
+        break;
+      case 4:
+        printf("Program is closing...!\n");
+        run = false;
+        break;
+    }
+  }
 }
