@@ -158,7 +158,7 @@ void issue(Drug drugs[]) {
     scanf("%d", &id);
 
     if (valid(drugs, id) == 1) {
-      printf("Enter the count: ");
+      printf("Enter the count want to issue: ");
       scanf("%d", &c);
 
       if (c >= 1) {
@@ -174,12 +174,47 @@ void issue(Drug drugs[]) {
             break;
           }
         }
+        save(drugs); // save data 
+      } else {
+        printf("Invalid count, can't issue any items ...\n");
       }
-
-      save(drugs);
     }
   }
 
+}
+
+
+void store(Drug drugs[]) {
+  int id;
+  int c; // count
+  char name[STRMAX];
+
+  printf("Enter the drug name: ");
+  scanf("%199s", name);
+
+  if (match(drugs, name) == 1) {
+    printf("Enter the id: ");
+    scanf("%d", &id);
+
+    if (valid(drugs, id) == 1) {
+      printf("Enter the count you want to add: ");
+      scanf("%d", &c);
+
+      if (c >= 1) {
+        for (int i = 0; i < count() -1; i++) {
+          if (drugs[i].id == id) {
+            drugs[i].count += c;
+            printf("Issue %d items from %s\n", c, drugs[i].name);
+            printf("New item count of %s is: %d\n", drugs[i].name, drugs[i].count);
+            break;
+          }
+        }
+        save(drugs); // save data
+      } else {
+        printf("Invalid count, can't add any items to store ...\n");
+      }
+    }
+  }
 }
 
 
@@ -196,5 +231,6 @@ int main() {
   Drug drugs[count()];
   create(drugs);
   issue(drugs);
+  store(drugs);
   return 0;
 }
