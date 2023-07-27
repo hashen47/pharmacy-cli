@@ -164,7 +164,13 @@ void issue(Drug drugs[]) {
       if (c >= 1) {
         for (int i = 0; i < count() -1; i++) {
           if (drugs[i].id == id) {
-            drugs[i].count += c;
+            if (drugs[i].count - c > 0) {
+              drugs[i].count -= c;
+              printf("issue %d items from %s\n", c, drugs[i].name);
+              printf("remaining count of %s is: %d\n", drugs[i].name, drugs[i].count);
+            } else {
+              printf("Not enough items to issue...\n");
+            }
             break;
           }
         }
