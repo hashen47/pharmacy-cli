@@ -3,6 +3,7 @@
 #include <string.h>
 #include <regex.h>
 #include <stdbool.h>
+#include <ctype.h>
 
 
 #define STRMAX 200
@@ -21,7 +22,6 @@ int valid(Drug drugs[], int id);      // check whether given id is in the drugs 
 int match(Drug drugs[], char* name);  // check whether given name is in the drugs array
 void create(Drug drugs[]);            // create drugs array array with data.txt file content 
 void save(Drug drugs[]);              // create a new data.txt file with drugs array elements
-void add(Drug drugs[]);               // add a new drug to the store 
 void store(Drug drugs[]);             // increase specific drug's count
 void issue(Drug drugs[]);             // decrease specific drug's count (issue drug)
 void add(Drug drugs[]);               // add a new drug to the store 
@@ -218,6 +218,63 @@ void store(Drug drugs[]) {
 }
 
 
+void add(Drug drugs[]) {
+  regex_t preg; 
+  bool alreadyUse = false;
+  char pattern[STRMAX + 10];
+  char name[STRMAX];
+  char res;
+
+  // get the new item name
+  printf("Enter the item name: ");
+  scanf("%s", name);
+
+  if (strlen(name) > 3) {
+    // show match items
+    sprintf(pattern, ".*%s.*", name);
+    printf("pattern: %s\n", pattern);
+
+    if (regcomp(&preg, pattern, 0)) {
+      printf("regex is not compiled..\n");
+      exit(EXIT_FAILURE);
+    }
+
+    for (int i = 0; i < count() -1; i++) {
+      // check whether new name is already used
+      if (!strcmp(name, drugs[i].name)) {
+        printf("this name is already using, try with another name..!\n");
+        alreadyUse = true;
+        break;
+      }
+
+      // show the all names that match with given name pattern
+      char r = regexec(&preg, drugs[i].name, 0, NULL, 0);
+      if (r == 0) {
+        printf("id: %d, name: %s, count: %d\n", drugs[i].id, drugs[i].name, drugs[i].count);
+      }
+    }
+
+    if (!alreadyUse) {
+      printf("Do you want to add \"%s\" item to the store (Y/n)?: ", name);
+      scanf("%s", &res);
+
+      res = toupper(res); 
+      if (res == 'Y') {
+        FILE *fp = fopen("data.txt", "a");
+        fprintf(fp, "%d_%d_%s\n", count(), 0, name);
+        fclose(fp);
+        printf("%s is added to the store...\n", name);
+      } else {
+        printf("here\n");
+      }
+    }
+
+  } else {
+    printf("The name you entered is too short, can't add..");
+  }
+}
+
+
 void printDrugs(Drug drugs[]) {
   for (int i = 0; i < count() -1; i++) {
     Drug d = drugs[i];
@@ -230,7 +287,8 @@ int main() {
   int id;
   Drug drugs[count()];
   create(drugs);
-  issue(drugs);
-  store(drugs);
+  // issue(drugs);
+  // store(drugs);
+  add(drugs);
   return 0;
 }
