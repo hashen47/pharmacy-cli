@@ -10,3 +10,4 @@
 - [x] create "store" function
 - [x] create "issue" function
 - [x] create "add" function
+- [x] create the user's start method selection logic
