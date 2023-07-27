@@ -17,6 +17,9 @@ typedef struct Drug {
 
 
 void welcome();                       // show the welcome message
+void add_head();                      // header message for add function
+void store_head();                    // header message for store function
+void issue_head();                    // header message for issue function
 int count();                          // return the record count of the data.txt file
 int valid(Drug drugs[], int id);      // check whether given id is in the drugs array
 int match(Drug drugs[], char* name);  // check whether given name is in the drugs array
@@ -28,13 +31,30 @@ void add(Drug drugs[]);               // add a new drug to the store
 
 
 void welcome() {
-  printf("<<-::::PHARMACY::::->>\n");
+  printf("\n<<-::::PHARMACY::::->>\n");
   printf("1. Add new Medicine a drug\n");
   printf("2. Sell Medicine\n");
   printf("3. New stock\n");
   printf("4. Exit\n");
 }
 
+
+void add_head() {
+  system("clear");
+  printf("<---####: ADD :####--->\n");
+}
+
+
+void issue_head() {
+  system("clear");
+  printf("<---####: SELL :####--->\n");
+}
+
+
+void store_head() {
+  system("clear");
+  printf("<---####: STORE :####--->\n");
+}
 
 int count() {
   FILE *fp;
@@ -137,6 +157,7 @@ int match(Drug drugs[], char *name) {
   }
 
   // match drug's name with regex
+  printf("##: matched items :##\n");
   for(int i = 0; i < count() -1; i++) {
     Drug drug = drugs[i];
     int r = regexec(&preg, drug.name, 0, NULL, 0);
@@ -159,15 +180,20 @@ void issue(Drug drugs[]) {
   int c; // count
   char name[STRMAX];
 
-  printf("Enter the drug name: ");
+  issue_head();
+  printf("\nEnter the drug name: ");
   scanf("%199s", name);
 
+  issue_head();
+  printf("##: matched items :##\n");
   if (match(drugs, name) == 1) {
-    printf("Enter the id: ");
+    printf("\nEnter the id: ");
     scanf("%d", &id);
 
+    issue_head();
+    printf("##: selected item :##\n");
     if (valid(drugs, id) == 1) {
-      printf("Enter the count want to issue: ");
+      printf("\nEnter the count want to issue: ");
       scanf("%d", &c);
 
       if (c >= 1) {
@@ -175,6 +201,7 @@ void issue(Drug drugs[]) {
           if (drugs[i].id == id) {
             if (drugs[i].count - c > 0) {
               drugs[i].count -= c;
+              issue_head();
               printf("issue %d items from %s\n", c, drugs[i].name);
               printf("remaining count of %s is: %d\n", drugs[i].name, drugs[i].count);
             } else {
@@ -198,21 +225,26 @@ void store(Drug drugs[]) {
   int c; // count
   char name[STRMAX];
 
-  printf("Enter the drug name: ");
+  store_head();
+  printf("\nEnter the drug name: ");
   scanf("%199s", name);
 
+  store_head();
+  printf("##: matched items :##\n");
   if (match(drugs, name) == 1) {
-    printf("Enter the id: ");
+    printf("\nEnter the id: ");
     scanf("%d", &id);
 
+    store_head();
     if (valid(drugs, id) == 1) {
-      printf("Enter the count you want to add: ");
+      printf("\nEnter the count you want to add: ");
       scanf("%d", &c);
 
       if (c >= 1) {
         for (int i = 0; i < count() -1; i++) {
           if (drugs[i].id == id) {
             drugs[i].count += c;
+            store_head();
             printf("Issue %d items from %s\n", c, drugs[i].name);
             printf("New item count of %s is: %d\n", drugs[i].name, drugs[i].count);
             break;
@@ -220,6 +252,7 @@ void store(Drug drugs[]) {
         }
         save(drugs); // save data
       } else {
+        store_head();
         printf("Invalid count, can't add any items to store ...\n");
       }
     }
@@ -235,13 +268,13 @@ void add(Drug drugs[]) {
   char res;
 
   // get the new item name
-  printf("Enter the item name: ");
+  add_head();
+  printf("\nEnter the item name: ");
   scanf("%s", name);
 
   if (strlen(name) > 3) {
     // show match items
     sprintf(pattern, ".*%s.*", name);
-    printf("pattern: %s\n", pattern);
 
     if (regcomp(&preg, pattern, 0)) {
       printf("regex is not compiled..\n");
@@ -259,12 +292,13 @@ void add(Drug drugs[]) {
       // show the all names that match with given name pattern
       char r = regexec(&preg, drugs[i].name, 0, NULL, 0);
       if (r == 0) {
+        add_head();
         printf("id: %d, name: %s, count: %d\n", drugs[i].id, drugs[i].name, drugs[i].count);
       }
     }
 
     if (!alreadyUse) {
-      printf("Do you want to add \"%s\" item to the store (Y/n)?: ", name);
+      printf("\nDo you want to add \"%s\" item to the store (Y/n)?: ", name);
       scanf("%s", &res);
 
       res = toupper(res); 
@@ -272,13 +306,16 @@ void add(Drug drugs[]) {
         FILE *fp = fopen("data.txt", "a");
         fprintf(fp, "%d_%d_%s\n", count(), 0, name);
         fclose(fp);
+        add_head();
         printf("%s is added to the store...\n", name);
       } else {
-        printf("here\n");
+        add_head();
+        printf("%s is not added to the store...", name);
       }
     }
 
   } else {
+    add_head();
     printf("The name you entered is too short, can't add..");
   }
 }
