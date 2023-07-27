@@ -145,6 +145,38 @@ int match(Drug drugs[], char *name) {
 }
 
 
+void issue(Drug drugs[]) {
+  int id;
+  int c; // count
+  char name[STRMAX];
+
+  printf("Enter the drug name: ");
+  scanf("%199s", name);
+
+  if (match(drugs, name) == 1) {
+    printf("Enter the id: ");
+    scanf("%d", &id);
+
+    if (valid(drugs, id) == 1) {
+      printf("Enter the count: ");
+      scanf("%d", &c);
+
+      if (c >= 1) {
+        for (int i = 0; i < count() -1; i++) {
+          if (drugs[i].id == id) {
+            drugs[i].count += c;
+            break;
+          }
+        }
+      }
+
+      save(drugs);
+    }
+  }
+
+}
+
+
 void printDrugs(Drug drugs[]) {
   for (int i = 0; i < count() -1; i++) {
     Drug d = drugs[i];
@@ -156,17 +188,7 @@ void printDrugs(Drug drugs[]) {
 int main() {
   int id;
   Drug drugs[count()];
-
-  printf("file is working..!\n");
-  printf("count: %d\n", count());
   create(drugs);
-  printDrugs(drugs);
-  // save(drugs);
-
-  printf("id: ");
-  scanf("%d", &id);
-  printf("stat: %d\n", valid(drugs, id));
-  printf("id: %d\n", match(drugs, "test"));
-
+  issue(drugs);
   return 0;
 }
