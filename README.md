@@ -1,5 +1,4 @@
-# PHARMACY CLI PROGRAM
-
+# Pharmacy Cli Program
 
 # Todos
 - [ ] create "welcome" function
@@ -9,5 +8,5 @@
 - [x] create "valid" function
 - [x] create "match" function
 - [ ] create "store" function
-- [ ] create "issue" function
+- [x] create "issue" function
 - [ ] create "add" function
