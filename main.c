@@ -338,7 +338,7 @@ int main() {
     create(drugs); // assign to drug array 
     welcome();
     printf("> ");
-    scanf("%d", &response);
+    scanf("%1d", &response);
 
     switch(response) {
       case 1:
@@ -350,7 +350,7 @@ int main() {
       case 3:
         store(drugs);
         break;
-      case 4:
+      default:
         printf("Program is closing...!\n");
         run = false;
         break;
