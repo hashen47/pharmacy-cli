@@ -31,8 +31,8 @@ void add(Drug drugs[]);               // add a new drug to the store
 
 
 void welcome() {
-  printf("\n<<-::::PHARMACY::::->>\n");
-  printf("1. Add new Medicine a drug\n");
+  printf("\n<<-####: PHARMACY :####->>\n");
+  printf("1. Add new Medicine\n");
   printf("2. Sell Medicine\n");
   printf("3. New stock\n");
   printf("4. Exit\n");
@@ -153,11 +153,10 @@ int match(Drug drugs[], char *name) {
   // compile the regex
   int r = regcomp(&preg, pattern, 0);
   if (r != 0) {
-    perror("regex not compiled/n");
+    perror("regex not compiled\n");
   }
 
   // match drug's name with regex
-  printf("##: matched items :##\n");
   for(int i = 0; i < count() -1; i++) {
     Drug drug = drugs[i];
     int r = regexec(&preg, drug.name, 0, NULL, 0);
@@ -245,7 +244,7 @@ void store(Drug drugs[]) {
           if (drugs[i].id == id) {
             drugs[i].count += c;
             store_head();
-            printf("Issue %d items from %s\n", c, drugs[i].name);
+            printf("stored %d items from %s\n", c, drugs[i].name);
             printf("New item count of %s is: %d\n", drugs[i].name, drugs[i].count);
             break;
           }
@@ -310,13 +309,13 @@ void add(Drug drugs[]) {
         printf("%s is added to the store...\n", name);
       } else {
         add_head();
-        printf("%s is not added to the store...", name);
+        printf("%s is not added to the store...\n", name);
       }
     }
 
   } else {
     add_head();
-    printf("The name you entered is too short, can't add..");
+    printf("The name you entered is too short, can't add..\n");
   }
 }
 
